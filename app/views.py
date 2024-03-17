@@ -5,10 +5,12 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
 
-from app import app
-from flask import render_template, request, redirect, url_for
-
-
+import os
+from app import app, db
+from flask import render_template, request, redirect, url_for, flash, session, abort,send_from_directory
+from werkzeug.utils import secure_filename
+from app.models import Property
+from .forms import PropertyForm
 ###
 # Routing for your application.
 ###
@@ -19,12 +21,47 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/about/')
-def about():
-    """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+@app.route('/properties/create')
+def createProperty():
+    """Render the website's property create page."""
+    propertyForm = PropertyForm()
+    
+    if request.method == 'POST':
+        if propertyForm.validate_on_submit():
+            
+            title = propertyForm.title.data
+            numberOfBedrooms = propertyForm.numberOfBedrooms.data
+            numberOfBathrooms = propertyForm.numberOfBathrooms.data
+            location = propertyForm.location.data
+            price = propertyForm.price.data
+            type= propertyForm.type.data
+            description = propertyForm.description.data
+            filename = propertyForm.filename.data # we could also use request.files['photo']
+            filenameFolder = secure_filename(filename.filenameFolder)
+
+            property=Property(title,numberOfBedrooms,numberOfBathrooms,location,price,type,description,filenameFolder)
+            db.session.add(property)
+            db.session.commit()
 
 
+            filename.save(os.path.join(
+                app.config['UPLOAD_FOLDER'], filenameFolder
+            ))
+
+            return render_template('properties.html')
+
+        flash_errors(propertyForm)
+    return render_template('create.html',form=propertyForm)
+
+@app.route('/properties')
+def properties():
+    """Render the website's properties page."""
+    return render_template('properties.html')
+
+@app.route('/properties/<propertyid>')
+def findProperty(id):
+    """Render the a specific property on the website."""
+    return render_template('property.html', id=id)
 ###
 # The functions below should be applicable to all Flask apps.
 ###
