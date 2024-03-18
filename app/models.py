@@ -1,5 +1,9 @@
 from . import db
+from enum import Enum
 
+class PropertyType(Enum):
+    House = 'House'
+    Apartment = 'Apartment'
 
 
 class Property(db.Model):
@@ -11,7 +15,7 @@ class Property(db.Model):
     numberOfBathrooms = db.Column(db.Integer)
     location= db.Column(db.String(255))
     price= db.Column(db.Integer)
-    type = db.Column(db.String(255))
+    type = db.Column(db.Enum(PropertyType))
     description = db.Column(db.Text)
     filename=db.Column(db.String(255))
 
@@ -43,5 +47,3 @@ class Property(db.Model):
         except NameError:
             return str(self.id)  # python 3 support
 
-    def __repr__(self):
-        return '<property_tb %r>' % (self.title)

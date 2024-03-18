@@ -1,12 +1,15 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField,FileField
-from wtforms.validators import InputRequired, Email
+from wtforms import StringField, IntegerField,FileField,TextAreaField,SelectField
+from wtforms.validators import InputRequired, DataRequired
+
 
 class PropertyForm(FlaskForm):
     title = StringField('Title', validators=[InputRequired()])
-    numberOfBedrooms = IntegerField('No. of Rooms', validators=[InputRequired()])
-    numberOfBathrooms = IntegerField('No. of Bathrooms', validators=[InputRequired()])
+    numberOfBedrooms = IntegerField('No. of Rooms', validators=[DataRequired()])
+    numberOfBathrooms = IntegerField('No. of Bathrooms', validators=[DataRequired()])
     price = IntegerField('Price', validators=[InputRequired()])
-    type = StringField('Property Type', validators=[InputRequired()])
+    type = SelectField('Type', choices=[('House', 'House'), ('Apartment', 'Apartment')], validators=[DataRequired()])
     location = StringField('Location', validators=[InputRequired()])
-    filename=FileField('Photo',)
+    description= TextAreaField('Description', validators=[DataRequired()])
+    filename=FileField('Photo',validators=[DataRequired()])
+
