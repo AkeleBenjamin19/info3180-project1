@@ -1,3 +1,66 @@
 body {
     padding-top: 5rem;
+    
+}
+
+.masterContainer{
+    display: flex;
+    border: 1px solid #ccc; /* Add border for the card */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    overflow: hidden; /* Clear float */
+    
+}
+
+.propertyImg {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    flex-shrink: 0;
+    
+}
+
+
+
+
+.propertyContainer {
+    
+    flex-grow: 1; /* Grow to fill remaining space */
+    padding: 20px; /* Add padding for the content */
+    
+}
+
+.location{
+    color: grey;
+}
+.priceBtn{
+    background-color: lightskyblue;
+    color: white;
+    border-radius: 10px;
+    content: "$";
+}
+
+.priceBtn::before{
+    content: "$";
+}
+
+.typeBtn{
+    background-color: orange;
+    color: white;
+    border-radius: 10px;
+}
+.email > button{
+    background-color: turquoise;
+    color: white;
+    border-radius: 5px;
+}
+
+.title > p{
+    font-size: large;
+    font-weight: bold;
+}
+
+.viewBtn{
+    
+    background-color: turquoise;
+    color: white;
 }

@@ -1,33 +1,33 @@
 {% extends "base.html" %}
 
 {% block main %}
-<div class="propertyContainer">
-  <div>
-    <img src="{{queryProperty.filename}}" alt="Property Image">
+<div class="masterContainer">
+  <div class="propertyImg">
+    <img src="{{url_for('get_image', filename=queryProperty.filename)}}" alt="Property Image">
   </div>
-  <div class="title">
-    <p>{{queryProperty.title}}</p>
-  </div>
-  <div class="price">
-    <button>{{queryProperty.price}}</button>
-  </div>
-  <div class="type">
-    <button>{{queryProperty.type}}</button>
-  </div>
-  <div class="description">
-    <p>{{queryProperty.description}}</p>
-  </div>
-  <div class="numberOfBedrooms">
-    <p>{{queryProperty.numberOfBedrooms}}</p>
-  </div>
-  <div class="numberOfBathrooms">
-    <p>{{queryProperty.numberOfBathrooms}}</p>
-  </div>
-  <div class="location">
-    <p>{{queryProperty.location}}</p>
-  </div>
-  <div>
-    <button>Email Realtor</button>
+  <div class="propertyContainer">
+    <div class="title">
+      <p>{{queryProperty.title}}</p>
+    </div>
+    <div class="btns">
+      <button class="priceBtn">{{queryProperty.price}}</button>
+      <button class="typeBtn">{{queryProperty.type.value}}</button>
+    </div>
+    <div class="description">
+      <p>{{queryProperty.description}}</p>
+    </div>
+    
+      <p>{{queryProperty.numberOfBedrooms}} Bedrooms</p>
+    
+    
+      <p>{{queryProperty.numberOfBathrooms}} Bathrooms</p>
+    
+    
+      <p class="location">{{queryProperty.location}}</p>
+    
+    <div class="email">
+      <button>Email Realtor</button>
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -43,11 +43,11 @@ def createProperty():
             filename = propertyForm.filename.data # we could also use request.files['photo']
             #print("line 43")
             filenameFolder = secure_filename(filename.filename)
-            filenamePath=os.path.join(os.getcwd(),app.config['UPLOAD_FOLDER']), filename
+            
 
             #print("line 45")
 
-            property=Property(title,numberOfBedrooms,numberOfBathrooms,location,price,type,description,filenamePath)
+            property=Property(title,numberOfBedrooms,numberOfBathrooms,location,price,type,description,filenameFolder)
             #print("line 48")
             db.session.add(property)
             db.session.commit()
@@ -60,31 +60,35 @@ def createProperty():
             #print("line 57")
 
             flash('Property added!!!', 'success')
-            return render_template('properties.html',title=title,description=description,numberOfBedrooms=numberOfBedrooms,numberOfBathrooms=numberOfBathrooms,price=price,type=type,location=location,filename=filename)
+            return render_template('home.html')
 
         flash_errors(propertyForm)
     return render_template('create.html',form=propertyForm)
 
-@app.route('/properties',methods=['GET'])
+@app.route('/properties',methods=['GET','POST'])
 def properties():
     """Render the website's properties page."""
     allProperties=Property.query.all()
+    #for property in allProperties:
+        #property.filename=get_image(property.filename)
     return render_template('properties.html',allProperties=allProperties)
 
 @app.route('/properties/<propertyid>', methods=['GET','POST'])
 def findProperty(propertyid):
     """Render the a specific property on the website."""
-    print(f"Property ID={propertyid}")
-    print("Line 78")
     queryProperty = db.get_or_404(Property, propertyid)
+    #queryProperty.filename = get_image(queryProperty.filename)
     return render_template('property.html',queryProperty=queryProperty)
 
-@app.route('/property/<filename>', methods=['GET'])
+
+def get_image_path(filename):
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'uploads',filename))
+
+@app.route('/property/<filename>')
 def get_image(filename):
-    rootdir=os.getcwd()
-    b=f"\\uploads\\{filename}"
-    print(os.path.join(os.getcwd(),b))
-    return send_from_directory(os.path.join(rootdir,app.config['UPLOAD_FOLDER']), filename)
+    rootdir = os.getcwd()
+    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
+
 
 def get_uploaded_images():
     rootdir = os.getcwd()

@@ -5,25 +5,27 @@
 <h1>Properties</h1>
   <ul>
     {% for property in allProperties %}
-    <li>
+    <div class="masterContainer">
+      <div class="propertyImg">
+        <img src="{{url_for('get_image',filename=property.filename)}}" alt="Property Image">
+      </div>
       <div class="propertyContainer">
-        <div class="photo">
-          <img src="{{property.filename}}" alt="Property Image">
-        </div>
         <div class="title">
           <p>{{property.title}}</p>
         </div>
-        <div class="address">
-          <p>{{property.address}}</p>
+        <div class="locationContainer">
+          <p class="location">{{property.location}}</p>
         </div>
         <div class="price">
-          <button>{{property.price}}</button>
+          <button class="priceBtn">{{property.price}}</button>
         </div>
-        <div class="viewBtn">
-          <a href="{{ url_for('findProperty', propertyid=property.id) }}">View Property</a>
+        <div class="Btn">
+          <form action="/properties/{{ property.id }}">
+            <button class="viewBtn" type="submit">View Property</button>
+        </form>
         </div>
       </div> 
-    <li>
+    </div>
     {% endfor %}
   </ul>
 {% endblock %}
